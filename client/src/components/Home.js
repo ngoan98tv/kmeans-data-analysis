@@ -33,6 +33,9 @@ const useStyles = makeStyles(theme => ({
     title: {
         marginBottom: 12,
         fontSize: 18
+    },
+    loading: {
+        marginLeft: 12
     }
 }))
 
@@ -49,11 +52,11 @@ function Home() {
         Axios.post(serverUrl + "/upload", formData)
             .then((response) => {
                 setIsLoading(false);
-                console.log(response.body);
+                console.log(response.data);
             })
             .catch((error) => {
                 setIsLoading(false);
-                console.log(error.message);
+                console.log(error.response);
             })
     }
 
@@ -74,8 +77,8 @@ function Home() {
                         </label>
                         <input id="fileInput" hidden name="data" onChange={e => setSelectedFile(e.target.files[0])} type="file" accept=".xlsx" />
                         
-                        <Button type="submit" variant="contained" color="primary">Submit</Button>
-                        {isLoading ? <CircularProgress size={24} /> : ''}
+                        <Button type="submit" disabled={selectedFile === null || isLoading} variant="contained" color="primary">Submit</Button>
+                        {isLoading ? <CircularProgress className={classes.loading} size={24} /> : ''}
                     </form>
                 </Paper>
             </Grid>
@@ -88,9 +91,6 @@ function Home() {
                 
             </Grid>
         </Grid>
-        <div className={classes.footer}>
-            <Typography>Updated 6 Oct by Ngoan Tran</Typography>
-        </div>
     </div>);
 }
 
