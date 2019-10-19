@@ -8,13 +8,8 @@ const app = express();
 
 app.use(express.static(process.cwd() + '/public'));
 app.use(fileUpload());
-app.use(session({ secret: 'keyboard cat' }));
 app.use(bodyParser.json());
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+app.use(session({ secret: 'keyboard cat' }));
 
 app.use((req, res, next) => {
     console.log(`${new Date().toLocaleString('vi-VN')} - ${req.method} ${req.path} - ${req.ip}`);
@@ -36,12 +31,20 @@ app.post('/upload', async (req, res) => {
                 const processing = spawn("lib/process.sh", [req.session.filePath]);
                 processing.stdout.on("data", (data) => {
                     res.json({
-                        data: data.toString().replace('\n', '').split(',')
+                        datafields: data.toString().replace('\n', '').split(',')
                     });
                 });
             }
         });
     }
+});
+
+app.post('/preview', async (req, res) => {
+    const {fields} = req.body;
+    const takePreview = spawn(`lib/take-preview.py`, [req.session.filePath + '.csv'].concat(fields));
+    takePreview.stdout.on("data", (data) => {
+        res.send(data);
+    });
 });
 
 app.listen(8000, () => {

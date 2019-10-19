@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { Grid, Paper, Typography, makeStyles, Button, FormGroup, FormControl, FormControlLabel, Input, ButtonGroup, CircularProgress } from '@material-ui/core'
-import Axios from 'axios';
-
-const serverUrl = "http://localhost:8000";
+import { Grid, Typography, makeStyles} from '@material-ui/core'
+import UploadForm from './UploadForm';
+import SelectFieldsForm from './SelectFieldsForm';
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -21,74 +20,23 @@ const useStyles = makeStyles(theme => ({
     },
     footer: {
         padding: 16
-    },
-    w120: {
-        maxWidth: 120
-    },
-    form: {
-        '& label, & button, & input': {
-            marginBottom: 12
-        }
-    },
-    title: {
-        marginBottom: 12,
-        fontSize: 18
-    },
-    loading: {
-        marginLeft: 12
     }
 }))
 
 function Home() {
     const classes = useStyles();
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
+    const [fields, setFields] = useState([]);
 
-    const handleSubmit = event => {
-        event.preventDefault();
-        setIsLoading(true);
-        const formData = new FormData();
-        formData.append('uploaded', selectedFile);
-        Axios.post(serverUrl + "/upload", formData)
-            .then((response) => {
-                setIsLoading(false);
-                console.log(response.data);
-            })
-            .catch((error) => {
-                setIsLoading(false);
-                console.log(error.response);
-            })
-    }
-
-    return (<div style={{ backgroundColor: "#dedede", minHeight: '100vh' }}>
+    return (<div>
         <div className={classes.header}>
             <Typography variant="h1">Panasonic Data Analysis</Typography>
         </div>
         <Grid container spacing={1} className={classes.body}>
             <Grid item xs={12} lg={4}>
-                <Paper className={classes.container}>
-                    <form onSubmit={handleSubmit} className={classes.form}>
-                        <Typography className={classes.title}>TẢI LÊN</Typography>
-                        <label htmlFor="fileInput">
-                            <ButtonGroup fullWidth>
-                                <Button variant="contained" className={classes.w120} disabled >Chọn file</Button>
-                                <Button variant="outlined" disabled>{selectedFile ? selectedFile.name : ''}</Button>
-                            </ButtonGroup>
-                        </label>
-                        <input id="fileInput" hidden name="data" onChange={e => setSelectedFile(e.target.files[0])} type="file" accept=".xlsx" />
-                        
-                        <Button type="submit" disabled={selectedFile === null || isLoading} variant="contained" color="primary">Submit</Button>
-                        {isLoading ? <CircularProgress className={classes.loading} size={24} /> : ''}
-                    </form>
-                </Paper>
+                <UploadForm onResponse={(data) => setFields(data)}  />
             </Grid>
             <Grid item xs={12} lg={8}>
-                <Paper className={classes.container}>
-                    <Typography>Preview</Typography>
-                </Paper>
-            </Grid>
-            <Grid item xs={12}>
-                
+                <SelectFieldsForm fields={fields} />
             </Grid>
         </Grid>
     </div>);
