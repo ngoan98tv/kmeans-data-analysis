@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Paper, Typography, makeStyles, Button, CircularProgress } from '@material-ui/core'
+import PublishIcon from '@material-ui/icons/Publish'
 import Axios from 'axios'
 
 const useStyles = makeStyles(theme => ({
@@ -41,7 +42,7 @@ function UploadForm({onResponse}) {
 
     return (
         <Paper component="form" onSubmit={handleSubmit} className={classes.form}>
-            <Typography className={classes.title}>TẢI LÊN</Typography>
+            <Typography className={classes.title}>CHỌN FILE</Typography>
 
             <label htmlFor="fileInput" style={{marginBottom: 12}}>
                 <Button
@@ -70,10 +71,8 @@ function UploadForm({onResponse}) {
                 disabled={selectedFile === null || isLoading} 
                 variant="contained" 
                 color="primary"
-                endIcon={isLoading ? <CircularProgress size={24} /> : ''}
-            >
-                Submit
-            </Button>
+                startIcon={isLoading ? <CircularProgress size={24} /> : <PublishIcon/>}
+            >Tải lên</Button>
             
         </Paper>
     );

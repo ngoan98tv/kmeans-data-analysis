@@ -36,6 +36,11 @@ function FieldsList({fields, selectedFields, onChange}) {
                     </Grid>
                 )}
             </Grid>
+            <Typography 
+                style={{ margin: "12px 0px" }}
+                color={selectedFields.length > 6 ? 'error' : 'textPrimary'}>
+                    <em>Đã chọn {selectedFields.length} thuộc tính{selectedFields.length > 6 ? ", quá nhiều rồi" + '!'.repeat(selectedFields.length - 6) : ""}</em>
+            </Typography>
         </Paper>
     );
 }

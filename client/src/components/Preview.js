@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, forwardRef } from 'react'
 import MaterialTable from 'material-table'
 import { Button, Paper } from '@material-ui/core'
 import BackIcon from '@material-ui/icons/ArrowBack'
@@ -19,23 +19,23 @@ import RemoveIcon from '@material-ui/icons/Remove'
 import ViewColumnIcon from '@material-ui/icons/ViewColumn'
 
 const customIcons = {
-    'Add': () => <AddIcon />,
-    'Check': () => <CheckIcon />,
-    'Clear': () => <ClearIcon />,
-    'Delete': () => <DeleteOutlineIcon />,
-    'DetailPanel': () => <ChevronRightIcon />,
-    'Edit': () => <EditIcon />,
-    'Export': () => <SaveAltIcon />,
-    'Filter': () => <FilterListIcon />,
-    'FirstPage': () => <FirstPageIcon />,
-    'LastPage': () => <LastPageIcon />,
-    'NextPage': () => <ChevronRightIcon />,
-    'PreviousPage': () => <ChevronLeftIcon />,
-    'ResetSearch': () => <ClearIcon />,
-    'Search': () => <SearchIcon />,
-    'SortArrow': () => <ArrowUpwardIcon />,
-    'ThirdStateCheck': () => <RemoveIcon />,
-    'ViewColumn': () => <ViewColumnIcon />,
+    'Add': forwardRef((props, ref) => <AddIcon {...props} ref={ref} />),
+    'Check': forwardRef((props, ref) => <CheckIcon {...props} ref={ref} />),
+    'Clear': forwardRef((props, ref) => <ClearIcon {...props} ref={ref} />),
+    'Delete': forwardRef((props, ref) => <DeleteOutlineIcon {...props} ref={ref} />),
+    'DetailPanel': forwardRef((props, ref) => <ChevronRightIcon {...props} ref={ref} />),
+    'Edit': forwardRef((props, ref) => <EditIcon {...props} ref={ref} />),
+    'Export': forwardRef((props, ref) => <SaveAltIcon {...props} ref={ref} />),
+    'Filter': forwardRef((props, ref) => <FilterListIcon {...props} ref={ref} />),
+    'FirstPage': forwardRef((props, ref) => <FirstPageIcon {...props} ref={ref} />),
+    'LastPage': forwardRef((props, ref) => <LastPageIcon {...props} ref={ref} />),
+    'NextPage': forwardRef((props, ref) => <ChevronRightIcon {...props} ref={ref} />),
+    'PreviousPage': forwardRef((props, ref) => <ChevronLeftIcon {...props} ref={ref} />),
+    'ResetSearch': forwardRef((props, ref) => <ClearIcon {...props} ref={ref} />),
+    'Search': forwardRef((props, ref) => <SearchIcon {...props} ref={ref} />),
+    'SortArrow': forwardRef((props, ref) => <ArrowUpwardIcon {...props} ref={ref} />),
+    'ThirdStateCheck': forwardRef((props, ref) => <RemoveIcon {...props} ref={ref} />),
+    'ViewColumn': forwardRef((props, ref) => <ViewColumnIcon {...props} ref={ref} />),
 }
 
 function Preview({data, onBack}) {
@@ -60,6 +60,9 @@ function Preview({data, onBack}) {
                     data={data}
                     title={<Button startIcon={<BackIcon/>} onClick={onBack}>Quay lại</Button>}
                     icons={customIcons}
+                    options={{
+                        padding: 'dense'
+                    }}
                 />
             }
         </Paper>

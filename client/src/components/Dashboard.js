@@ -104,11 +104,6 @@ function Dashboard() {
                 <div style={{ height: 16 }} />
                 <Collapse in={fields.length > 0}>
                     <Paper className={classes.container}>
-                        <Typography 
-                            style={{ margin: "12px 0px" }}
-                            color={selectedFields.length > 6 ? 'error' : 'textPrimary'}>
-                                <em>Đã chọn {selectedFields.length} thuộc tính{selectedFields.length > 6 ? ", quá nhiều rồi" + '!'.repeat(selectedFields.length - 6) : ""}</em>
-                        </Typography>
                         <Typography>Nhập số dòng để xem trước</Typography>
                         <Grid container spacing={1}>
                             <Grid item xs={6} md={5}>
@@ -144,7 +139,7 @@ function Dashboard() {
                             disabled={selectedFields.length === 0 || isLoading || isClustering} 
                             variant="contained" 
                             startIcon={isClustering ? <CircularProgress size={24}/> : <BubbleIcon/>}
-                            color="primary" >Tiến hành gom nhóm</Button>
+                            color="primary" >Gom nhóm</Button>
                         <Button 
                             onClick={() => {
                                 setClusters([]);
