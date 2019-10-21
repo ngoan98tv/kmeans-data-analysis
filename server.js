@@ -22,13 +22,15 @@ app.get('/', (req, res) => {
 
 app.post('/upload', async (req, res) => {
     if (req.files.uploaded && req.files.uploaded.size > 0) {
-        const fileName = new Date().toISOString() + "+" + req.files.uploaded.name;
-        req.files.uploaded.mv("uploads/" + fileName, (err) => {
+        const timestamp = new Date()*1;
+        const xlsFile = timestamp + "+" + req.files.uploaded.name;
+        const csvFile = timestamp + "+" + req.files.uploaded.name.replace('xlsx','csv');
+        req.files.uploaded.mv("uploads/" + xlsFile, (err) => {
             if (err) {
                 res.status(500).send(err);
             } else {
-                req.session.filePath = "uploads/" + fileName;
-                const processing = spawn("lib/process.sh", [req.session.filePath]);
+                req.session.filePath = "uploads/" + csvFile;
+                const processing = spawn("lib/convert-to-csv.sh", ["uploads/" + xlsFile, "uploads/" + csvFile]);
                 processing.stdout.on("data", (data) => {
                     res.json({
                         datafields: data.toString().replace('\n', '').split(',')
@@ -40,12 +42,21 @@ app.post('/upload', async (req, res) => {
 });
 
 app.post('/preview', async (req, res) => {
-    const {fields} = req.body;
-    const takePreview = spawn(`lib/take-preview.py`, [req.session.filePath + '.csv'].concat(fields));
-    takePreview.stdout.on("data", (data) => {
-        res.send(data);
+    const {fields, lines} = req.body;
+    const preview = spawn(`lib/preview.py`, [req.session.filePath].concat(lines, fields));
+    preview.stdout.on("data", (data) => {
+        res.json(data.toString('utf-8'));
     });
 });
+
+app.post('/cluster', async (req, res) => {
+    const {numOfClusters, maxLoops, fields} = req.body;
+    const {filePath} = req.session;
+    const cluster = spawn('lib/cluster.py', [filePath].concat([numOfClusters, maxLoops], fields));
+    cluster.stdout.on("data", (data) => {
+        res.json(data.toString('utf-8'));
+    });
+})
 
 app.listen(8000, () => {
     console.log("Server is listening on: http://localhost:8000");
