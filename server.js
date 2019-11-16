@@ -16,15 +16,12 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/', (req, res) => {
-    res.sendFile(process.cwd() + '/public/index.html');
-});
-
 app.post('/upload', async (req, res) => {
     if (req.files.uploaded && req.files.uploaded.size > 0) {
         const timestamp = new Date()*1;
-        const xlsFile = timestamp + "+" + req.files.uploaded.name;
-        const csvFile = timestamp + "+" + req.files.uploaded.name.replace('xlsx','csv');
+        const basename = req.files.uploaded.name.substring(0, req.files.uploaded.name.lastIndexOf('.'));
+        const xlsFile = basename +  '-' + timestamp + '.xlsx';
+        const csvFile = basename +  '-' + timestamp + '.csv';
         req.files.uploaded.mv("uploads/" + xlsFile, (err) => {
             if (err) {
                 res.status(500).send(err);
@@ -50,13 +47,28 @@ app.post('/preview', async (req, res) => {
 });
 
 app.post('/cluster', async (req, res) => {
-    const {numOfClusters, maxLoops, fields} = req.body;
-    const {filePath} = req.session;
+    const { numOfClusters, maxLoops, fields } = req.body;
+    const { filePath } = req.session;
     const cluster = spawn('lib/cluster.py', [filePath].concat([numOfClusters, maxLoops], fields));
     cluster.stdout.on("data", (data) => {
         res.json(data.toString('utf-8'));
     });
-})
+});
+
+app.get('/download/:group', async (req, res) => {
+    const group = req.params.group;
+    const { filePath } = req.session;
+    const result = '/'
+                    + filePath.substring(0, filePath.lastIndexOf('-'))
+                    + '-group' + group + '-'
+                    + filePath.substring(filePath.lastIndexOf('-') +1);
+    console.log(result);
+    res.download(process.cwd() + result, 'group' + group + '.csv');
+});
+
+app.get('/', (req, res) => {
+    res.sendFile(process.cwd() + '/public/index.html');
+});
 
 app.listen(8000, () => {
     console.log("Server is listening on: http://localhost:8000");

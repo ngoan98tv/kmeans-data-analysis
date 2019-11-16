@@ -31,7 +31,7 @@ function ClustersList({clusters}) {
                             )}
                     </Grid>
                     <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 12 }}>
-                        <Button color="primary" size="small">Tải xuống</Button>
+                        <Button color="primary" size="small" href={"/download/" + (index+1)}>Tải xuống</Button>
                     </div>
                 </Paper>
             )

@@ -36,7 +36,8 @@ labels = kmeans.predict(X_scaled)
 summary = '['
 for i in range(0, num_of_clusters):
     cluster = origin_data.loc[labels[origin_data.index] == i]
-    cluster.to_csv(file_path + str(i), index=False)
+    expFileName = file_path[: file_path.rfind('-')] + '-group' + str(i+1) + '-' + file_path[file_path.rfind('-') +1:];
+    cluster.to_csv(expFileName, index=False)
     summary += cluster[fields].describe(include = ['object', 'float', 'int']).to_json()
     if (i+1 < num_of_clusters):
         summary += ','
