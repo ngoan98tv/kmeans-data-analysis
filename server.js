@@ -9,7 +9,7 @@ const app = express();
 app.use(express.static(process.cwd() + '/public'));
 app.use(fileUpload());
 app.use(bodyParser.json());
-app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 3600000 } }));
+app.use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true, cookie: { maxAge: 3600000 } }));
 
 app.use((req, res, next) => {
     console.log(`${new Date().toLocaleString('vi-VN')} - ${req.method} ${req.path} - ${req.ip}`);

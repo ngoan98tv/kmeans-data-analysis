@@ -44,7 +44,7 @@ function UploadForm({onResponse}) {
         <Paper component="form" onSubmit={handleSubmit} className={classes.form}>
             <Typography className={classes.title}>CHỌN FILE</Typography>
 
-            <label htmlFor="fileInput" style={{marginBottom: 12}}>
+            <label htmlFor="fileInput" style={{marginBottom: 12, display: 'flex', justifyContent: 'flex-end'}}>
                 <Button
                     variant="outlined"
                     component="div" 
@@ -65,15 +65,15 @@ function UploadForm({onResponse}) {
                 accept=".xlsx" 
                 style={{marginBottom: 12}}
             />
-            
-            <Button 
-                type="submit" 
-                disabled={selectedFile === null || isLoading} 
-                variant="contained" 
-                color="primary"
-                startIcon={isLoading ? <CircularProgress size={24} /> : <PublishIcon/>}
-            >Tải lên</Button>
-            
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Button 
+                    type="submit" 
+                    disabled={selectedFile === null || isLoading} 
+                    variant="contained" 
+                    color="primary"
+                    startIcon={isLoading ? <CircularProgress size={24} /> : <PublishIcon/>}
+                >Tải lên</Button>
+            </div>
         </Paper>
     );
 }

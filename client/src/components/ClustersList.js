@@ -26,11 +26,13 @@ function ClustersList({clusters}) {
                                                 ? <Typography style={{ fontSize: '12px' }}>{proper}: {cluster[field][proper]}</Typography> 
                                                 : ''
                                         )}
-                                        <Button color="primary" size="small">Tải xuống</Button>
                                     </Grid>
                                 )
                             )}
                     </Grid>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 12 }}>
+                        <Button color="primary" size="small">Tải xuống</Button>
+                    </div>
                 </Paper>
             )
         )}

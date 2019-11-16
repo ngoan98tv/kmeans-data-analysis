@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Grid, Paper, Typography, makeStyles, Button, CircularProgress, TextField, Collapse } from '@material-ui/core'
+import { Grid, Paper, Typography, makeStyles, Button, CircularProgress, TextField, Collapse, ButtonGroup } from '@material-ui/core'
 import EyeIcon from '@material-ui/icons/RemoveRedEye'
 import BubbleIcon from '@material-ui/icons/BubbleChart'
 import Axios from 'axios'
@@ -104,50 +104,52 @@ function Dashboard() {
                 <div style={{ height: 16 }} />
                 <Collapse in={fields.length > 0}>
                     <Paper className={classes.container}>
-                        <Typography>Nhập số dòng để xem trước</Typography>
+                        <Typography style={{ marginBottom: 12 }}>Nhập số dòng để xem trước</Typography>
                         <Grid container spacing={1}>
-                            <Grid item xs={6} md={5}>
+                            <Grid item xs={6} >
                                 <TextField type="number" label="Bắt đầu" value={start} onChange={e => setStart(e.target.value)} fullWidth/>
                             </Grid>
-                            <Grid item xs={6} md={5}>
+                            <Grid item xs={6} >
                                 <TextField type="number" label="Kết thúc" value={end} onChange={e => setEnd(e.target.value)} fullWidth/>
                             </Grid>
                         </Grid>
-                        <Button 
-                            onClick={handlePreview}
-                            style={{ margin: "12px 0px" }}
-                            disabled={selectedFields.length === 0 || isLoading || isClustering} 
-                            variant="contained" 
-                            startIcon={isLoading ? <CircularProgress size={24}/> : <EyeIcon/>}
-                            color="primary">Xem trước</Button>
+                        <div style={{ display: 'flex', marginTop: 12, justifyContent: 'flex-end' }}>
+                            <Button 
+                                onClick={handlePreview}
+                                disabled={selectedFields.length === 0 || isLoading || isClustering} 
+                                variant="contained" 
+                                startIcon={isLoading ? <CircularProgress size={24}/> : <EyeIcon/>}
+                                color="primary">Xem trước</Button>
+                        </div>
                     </Paper>
                     <div style={{ height: 16 }} />
                     <Paper className={classes.container}>
-                        <Typography>Tùy chọn gom nhóm</Typography>
+                        <Typography style={{ marginBottom: 12 }}>Tùy chọn gom nhóm</Typography>
                         <Grid container spacing={1}>
-                            <Grid item xs={6} md={5}>
+                            <Grid item xs={6} >
                                 <TextField type="number" label="Số nhóm" value={nClusters} onChange={e => setNClusters(e.target.value)} fullWidth/>
                             </Grid>
-                            <Grid item xs={6} md={5}>
+                            <Grid item xs={6} >
                                 <TextField type="number" label="Số lần lặp" value={nLoops} onChange={e => setNLoops(e.target.value)} fullWidth/>
                             </Grid>
                         </Grid>
-                        
-                        <Button 
-                            onClick={handleCluster}
-                            style={{ margin: "12px 0px" }}
-                            disabled={selectedFields.length === 0 || isLoading || isClustering} 
-                            variant="contained" 
-                            startIcon={isClustering ? <CircularProgress size={24}/> : <BubbleIcon/>}
-                            color="primary" >Gom nhóm</Button>
-                        <Button 
-                            onClick={() => {
-                                setClusters([]);
-                                setPreviewData([]);
-                            }}
-                            style={{ margin: "12px 12px" }}
-                            disabled={selectedFields.length === 0 || isLoading || isClustering} 
-                            color="primary" >Chọn lại</Button>
+                        <div style={{ display: 'flex', marginTop: 12, justifyContent: 'flex-end' }}>
+                            <ButtonGroup>
+                            <Button 
+                                onClick={() => {
+                                    setClusters([]);
+                                    setPreviewData([]);
+                                }}
+                                disabled={selectedFields.length === 0 || isLoading || isClustering} 
+                                color="primary" >Chọn lại</Button>
+                            <Button 
+                                onClick={handleCluster}
+                                disabled={selectedFields.length === 0 || isLoading || isClustering} 
+                                variant="contained" 
+                                startIcon={isClustering ? <CircularProgress size={24}/> : <BubbleIcon/>}
+                                color="primary" >Gom nhóm</Button>
+                            </ButtonGroup>
+                        </div>
                     </Paper>
                 </Collapse>
             </Grid>
