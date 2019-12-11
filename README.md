@@ -9,4 +9,4 @@ Cluster, Python, NodeJS, Shell Script, Child Process, NumPy, Pandas, sklearn, KM
 - NodeJS
 - xlsx2csv
 - Python3 (NumPy, Pandas, sklearn)
-- `/uploads` directory shoulh be created if not exists
+- `/uploads` directory should be created if not exists
