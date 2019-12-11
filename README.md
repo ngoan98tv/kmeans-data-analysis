@@ -4,3 +4,9 @@ This project is aimed at researching and developing a web application that can h
 
 ## Keywords
 Cluster, Python, NodeJS, Shell Script, Child Process, NumPy, Pandas, sklearn, KMeans.
+
+## Installation Requirements
+- NodeJS
+- xlsx2csv
+- Python3 (NumPy, Pandas, sklearn)
+- `/uploads` directory shoulh be created if not exists
